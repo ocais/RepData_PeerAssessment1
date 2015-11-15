@@ -167,13 +167,6 @@ Updating the missing values on the data has made no differnce to the meand and o
 
 - Using the dataset with the filled-in missing values for this part.
 
-1.
-
-
-2. See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
-
-
-
 
 ```r
 # function to detertime the week day type
@@ -185,19 +178,22 @@ isWeekend <- function(myDate) {
 data2$date <- as.Date(data2$date)
 data2$day <- weekdays(data2$date)
 WeekDayType <- sapply(data2$date, isWeekend)
+```
 
-#Created a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+- Created a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+
+```r
 data2$weekend <- as.factor(WeekDayType)
+```
 
+- Made a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
-#Made a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
-
+```r
 Activity <- aggregate(steps ~ interval + weekend, data2, mean)
-
 library(lattice)
 xyplot(steps ~ interval | factor(weekend),
        data=Activity,type="l",
        aspect=1/3)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-17-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-19-1.png) 

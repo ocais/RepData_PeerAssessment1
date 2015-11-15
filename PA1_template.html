@@ -144,10 +144,6 @@ MedianTotalSteps2 = median(Total2$steps)</code></pre>
 <ul>
 <li>Using the dataset with the filled-in missing values for this part.</li>
 </ul>
-<ol style="list-style-type: decimal">
-<li></li>
-<li>See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.</li>
-</ol>
 <pre class="r"><code># function to detertime the week day type
 isWeekend &lt;- function(myDate) {
     day &lt;- weekdays(myDate)
@@ -156,16 +152,15 @@ isWeekend &lt;- function(myDate) {
 
 data2$date &lt;- as.Date(data2$date)
 data2$day &lt;- weekdays(data2$date)
-WeekDayType &lt;- sapply(data2$date, isWeekend)
-
-#Created a new factor variable in the dataset with two levels - &quot;weekday&quot; and &quot;weekend&quot; indicating whether a given date is a weekday or weekend day.
-data2$weekend &lt;- as.factor(WeekDayType)
-
-
-#Made a panel plot containing a time series plot (i.e. type = &quot;l&quot;) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
-
-Activity &lt;- aggregate(steps ~ interval + weekend, data2, mean)
-
+WeekDayType &lt;- sapply(data2$date, isWeekend)</code></pre>
+<ul>
+<li>Created a new factor variable in the dataset with two levels - “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.</li>
+</ul>
+<pre class="r"><code>data2$weekend &lt;- as.factor(WeekDayType)</code></pre>
+<ul>
+<li>Made a panel plot containing a time series plot (i.e. type = “l”) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).</li>
+</ul>
+<pre class="r"><code>Activity &lt;- aggregate(steps ~ interval + weekend, data2, mean)
 library(lattice)
 xyplot(steps ~ interval | factor(weekend),
        data=Activity,type=&quot;l&quot;,
