@@ -1,50 +1,59 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
-```{r, echo = TRUE}
+
+```r
 datacsv <- read.csv("activity.csv",sep=",", na.strings = c("NA",""),stringsAsFactors = FALSE)
 data <- na.omit(datacsv)
 ```
 ## What is mean total number of steps taken per day?
 
-```{r, echo=TRUE}
+
+```r
 Total <- aggregate(steps ~ date, data, sum)
 hist(Total$steps, 10,
      main="Histogram of Total Number of Steps Taken Per Day",
      xlab="Daily Total Steps",
      col="Green")
- 
 ```
 
-```{r, echo=TRUE}
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
+
+
+```r
 Total <- aggregate(steps ~ date, data, sum)
 MeanTotalSteps = mean(Total$steps)
 MedianTotalSteps = median(Total$steps)
 ```
 The mean total number of steps is:
-```{r, echo=TRUE}
 
+```r
 MeanTotalSteps
 ```
-The median total number of steps is:
-```{r, echo=TRUE}
 
+```
+## [1] 10766.19
+```
+The median total number of steps is:
+
+```r
 MedianTotalSteps
+```
+
+```
+## [1] 10765
 ```
 
 ## What is the average daily activity pattern?
 
-```{r, echo=TRUE}
+
+```r
 IntervalMean <- aggregate(steps ~ interval, data, mean)
 ```
 A plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis):
-```{r, echo=TRUE}
+
+```r
 IntervalMean <- aggregate(steps ~ interval, data, mean)
 plot(IntervalMean$interval,IntervalMean$steps,
      type="l",
@@ -54,31 +63,54 @@ plot(IntervalMean$interval,IntervalMean$steps,
 axis(side=1, at=seq(0,max(IntervalMean$steps),by=100))
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
+
 The 5-minute interval, on average across all the days in the dataset, that contains the maximum number of steps:
-```{r, echo=TRUE}
+
+```r
 Max <- IntervalMean[IntervalMean$steps==max(IntervalMean$steps),]
 ```
 Max row:
-```{r, echo=TRUE}
+
+```r
 Max
+```
+
+```
+##     interval    steps
+## 104      835 206.1698
 ```
 Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 Max interval:
-```{r, echo=TRUE}
+
+```r
 Max$interval
+```
+
+```
+## [1] 835
 ```
 
 ## Inputing missing values
 Total number of missing values in the dataset (i.e. the total number of rows with NAs)
-```{r, echo=TRUE}
+
+```r
 sum(is.na(datacsv$steps)|is.na(datacsv$date)|is.na(datacsv$interval))
+```
+
+```
+## [1] 2304
+```
+
+```r
 #sum(is.na(datacsv$steps))
 ```
 
 2.Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 
 
-```{r, echo=TRUE}
+
+```r
 data2 <- datacsv
 
 data2$steps[is.na(datacsv$steps)] <- mean(datacsv$steps, na.rm=TRUE)
@@ -86,8 +118,13 @@ data2$steps[is.na(datacsv$steps)] <- mean(datacsv$steps, na.rm=TRUE)
 MeanTotalSteps
 ```
 
+```
+## [1] 10766.19
+```
 
-```{r, echo=TRUE}
+
+
+```r
 Total2 <- aggregate(steps ~ date, data2, sum, na.rm=TRUE)
 MeanTotalSteps2 = mean(Total2$steps)
 MedianTotalSteps2 = median(Total2$steps)
@@ -95,23 +132,33 @@ MedianTotalSteps2 = median(Total2$steps)
 
 Histogram of the total number of steps taken each day:
 
-```{r, echo=TRUE}
 
+```r
 hist(Total2$steps, 10,
      main="Total Steps per Day without Missing Values",
      xlab="Daily Total Steps",
      col="Green")
 ```
 
-The updated mean total number of steps is:
-```{r, echo=TRUE}
+![](PA1_template_files/figure-html/unnamed-chunk-14-1.png) 
 
+The updated mean total number of steps is:
+
+```r
 MeanTotalSteps2
 ```
-The updated median total number of steps is:
-```{r, echo=TRUE}
 
+```
+## [1] 10766.19
+```
+The updated median total number of steps is:
+
+```r
 MedianTotalSteps2
+```
+
+```
+## [1] 10766.19
 ```
 
 Updating the missing values on the data has made no differnce to the meand and only a very slight difference to the median.
@@ -127,8 +174,8 @@ Updating the missing values on the data has made no differnce to the meand and o
 
 
 
-```{r, echo=TRUE}
 
+```r
 # function to detertime the week day type
 isWeekend <- function(myDate) {
     day <- weekdays(myDate)
@@ -151,5 +198,6 @@ library(lattice)
 xyplot(steps ~ interval | factor(weekend),
        data=Activity,type="l",
        aspect=1/3)
-
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-17-1.png) 
