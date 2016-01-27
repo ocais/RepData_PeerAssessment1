@@ -1,4 +1,4 @@
-#   Reproducible Research: Peer Assessment 1 - Activity Monitoring  
+#   Reproducible Research:  Course Project 1 - Activity Monitoring  
 
 
 ## Loading and preprocessing the data
